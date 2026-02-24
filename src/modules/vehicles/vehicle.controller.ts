@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { vehicleServices } from "./vehicle.service";
 
-const createVehicle = async(req: Request, res: Response) => {
+const createVehicle = async (req: Request, res: Response) => {
     try {
         const queryResult = await vehicleServices.createVehicle(req.body);
 
@@ -18,7 +18,7 @@ const createVehicle = async(req: Request, res: Response) => {
     }
 };
 
-const getAllVehicles = async(req: Request, res: Response) => {
+const getAllVehicles = async (req: Request, res: Response) => {
     try {
         const queryResult = await vehicleServices.getAllVehicles();
 
@@ -34,9 +34,35 @@ const getAllVehicles = async(req: Request, res: Response) => {
             details: error
         })
     }
+};
+
+const getSingleVehicle = async (req: Request, res: Response) => {
+    try {
+        const queryResult = await vehicleServices.getSingleVehicle(req.params.id as string);
+
+        if (queryResult.rows.length === 0) {
+            res.status(400).json({
+                success: false,
+                message: "Vehicle not found.",
+            })
+        } else {
+            res.status(200).json({
+                success: true,
+                message: "Vehicle retrieved successfully.",
+                data: queryResult.rows[0]
+            })
+        }
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: "Vehicle not found.",
+            details: error
+        })
+    }
 }
 
 export const vehicleController = {
     createVehicle,
-    getAllVehicles
+    getAllVehicles,
+    getSingleVehicle
 }
