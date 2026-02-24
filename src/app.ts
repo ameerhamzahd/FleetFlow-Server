@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import initDB from "./config/db";
+import { vehicleRoutes } from "./modules/vehicles/vehicle.routes";
 
 const app = express();
 
@@ -13,6 +14,9 @@ initDB();
 app.get('/', (req: Request, res: Response) => {
     res.send('Welcome to FleetFlow – Where Every Journey Flows Seamlessly.')
 });
+
+// VEHICLES
+app.use("/api/v1/vehicles", vehicleRoutes);
 
 //NOT FOUND
 app.use((req: Request, res: Response) => {
