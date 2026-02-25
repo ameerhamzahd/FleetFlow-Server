@@ -3,10 +3,11 @@ import config from ".";
 
 // POSTGRE-SQL CONNECTION STRING
 export const pool = new Pool({
-    connectionString: `${config.CONNECTION_STRING}`
+    connectionString: `${config.CONNECTION_STRING}`,
+    ssl: { rejectUnauthorized: false }
 });
 
-const initDB = async() => {
+const initDB = async () => {
     await pool.query(`
         CREATE TABLE IF NOT EXISTS users(
         id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
