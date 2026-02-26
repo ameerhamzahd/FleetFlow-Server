@@ -5,4 +5,6 @@ const router = Router();
 
 router.get("/", usersController.getAllUsers);
 
+router.put("/:userId", usersController.updateUser);
+
 export const userRoutes = router;
