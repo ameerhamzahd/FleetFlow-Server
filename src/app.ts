@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import initDB from "./config/db";
 import { vehicleRoutes } from "./modules/vehicles/vehicle.routes";
+import { userRoutes } from "./modules/users/user.routes";
 
 const app = express();
 
@@ -17,6 +18,9 @@ app.get('/', (req: Request, res: Response) => {
 
 // VEHICLES
 app.use("/api/v1/vehicles", vehicleRoutes);
+
+// USERS
+app.use("/api/v1/users", userRoutes);
 
 //NOT FOUND
 app.use((req: Request, res: Response) => {

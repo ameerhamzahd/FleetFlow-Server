@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { vehicleServices } from "./vehicle.service";
+import { vehicleServices } from "./vehicle.services";
 
 const createVehicle = async (req: Request, res: Response) => {
     try {
@@ -38,7 +38,7 @@ const getAllVehicles = async (req: Request, res: Response) => {
 
 const getSingleVehicle = async (req: Request, res: Response) => {
     try {
-        const queryResult = await vehicleServices.getSingleVehicle(req.params.id as string);
+        const queryResult = await vehicleServices.getSingleVehicle(req.params.vehicleId as string);
 
         if (queryResult.rows.length === 0) {
             res.status(400).json({
@@ -63,7 +63,7 @@ const getSingleVehicle = async (req: Request, res: Response) => {
 
 const updateVehicle = async (req: Request, res: Response) => {
     try {
-        const queryResult = await vehicleServices.updateVehicle(req.params.id as string, req.body);
+        const queryResult = await vehicleServices.updateVehicle(req.params.vehicleId as string, req.body);
 
         if (!queryResult) {
             return res.status(400).json({
@@ -95,7 +95,7 @@ const updateVehicle = async (req: Request, res: Response) => {
 
 const deleteVehicle = async (req: Request, res: Response) => {
     try {
-        const queryResult = await vehicleServices.deleteVehicle(req.params.id as string);
+        const queryResult = await vehicleServices.deleteVehicle(req.params.vehicleId as string);
 
         if (queryResult.rowCount === 0) {
             res.status(400).json({
@@ -118,7 +118,7 @@ const deleteVehicle = async (req: Request, res: Response) => {
     }
 }
 
-export const vehicleController = {
+export const vehicleControllers = {
     createVehicle,
     getAllVehicles,
     getSingleVehicle,
