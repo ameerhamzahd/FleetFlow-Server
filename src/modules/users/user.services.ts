@@ -7,7 +7,7 @@ const getAllUsers = async () => {
 };
 
 const updateUser = async (id: string, payload: Record<string, unknown>) => {
-    const allowedFields = ["name", "email", "password", "phone", "role"];
+    const allowedFields = ["name", "email", "phone", "role"];
 
     const fields: string[] = [];
     const values: any[] = [];
@@ -32,7 +32,14 @@ const updateUser = async (id: string, payload: Record<string, unknown>) => {
     return queryResult;
 };
 
+const deleteUser = async (id: string) => {
+    const queryResult = await pool.query(`DELETE FROM users WHERE id = $1`, [id]);
+
+    return queryResult;
+}
+
 export const userServices = {
     getAllUsers,
-    updateUser
+    updateUser,
+    deleteUser
 };

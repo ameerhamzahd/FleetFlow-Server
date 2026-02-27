@@ -55,7 +55,7 @@ const getSingleVehicle = async (req: Request, res: Response) => {
     } catch (error: any) {
         res.status(500).json({
             success: false,
-            message: "Vehicle not found.",
+            message: "Something went wrong.",
             details: error
         })
     }
@@ -112,7 +112,7 @@ const deleteVehicle = async (req: Request, res: Response) => {
     } catch (error: any) {
         res.status(500).json({
             success: false,
-            message: "Vehicle not found.",
+            message: "Something went wrong.",
             details: error
         })
     }
