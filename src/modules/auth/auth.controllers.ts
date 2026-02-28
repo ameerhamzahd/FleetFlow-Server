@@ -18,6 +18,29 @@ const signUp = async (req: Request, res: Response) => {
     }
 };
 
+const signIn = async (req: Request, res: Response) => {
+    try {
+        const { email, password } = req.body;
+
+        const data = await authServices.signIn(email, password);
+
+        res.status(200).json({
+            success: true,
+            message: "Login successful",
+            data: {
+                accessToken: data.token,
+                user: data.user
+            }
+        });
+    } catch (error: any) {
+        res.status(401).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
 export const authControllers = {
-    signUp
+    signUp,
+    signIn
 }

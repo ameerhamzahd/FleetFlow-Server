@@ -4,7 +4,8 @@ import path from "path";
 dotenv.config({ path: path.join(process.cwd(), ".env") });
 
 const config = {
-    CONNECTION_STRING: process.env.CONNECTION_STRING
+    CONNECTION_STRING: process.env.CONNECTION_STRING,
+    JWT_SECRET: process.env.JWT_SECRET
 }
 
 export default config;

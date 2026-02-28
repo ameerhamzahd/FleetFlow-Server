@@ -33,7 +33,7 @@ const updateUser = async (userId: string, payload: Record<string, unknown>) => {
 
     values.push(userId);
 
-    const queryResult = await pool.query(`UPDATE users SET ${fields.join(", ")} WHERE id = $${userIdx} RETURNING *`, values);
+    const queryResult = await pool.query(`UPDATE users SET ${fields.join(", ")} WHERE id = $${userIdx} RETURNING id, name, email, role`, values);
 
     return queryResult.rows[0];
 };
