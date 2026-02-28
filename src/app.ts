@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import initDB from "./config/db";
-import { vehicleRoutes } from "./modules/vehicles/vehicle.routes";
-import { userRoutes } from "./modules/users/user.routes";
+import { vehiclesRoutes } from "./modules/vehicles/vehicle.routes";
+import { usersRoutes } from "./modules/users/user.routes";
+import { bookingsRoutes } from "./modules/bookings/bookings.routes";
 
 const app = express();
 
@@ -17,10 +18,13 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // VEHICLES
-app.use("/api/v1/vehicles", vehicleRoutes);
+app.use("/api/v1/vehicles", vehiclesRoutes);
 
 // USERS
-app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/users", usersRoutes);
+
+// BOOKINGS
+app.use("/api/v1/bookings", bookingsRoutes);
 
 //NOT FOUND
 app.use((req: Request, res: Response) => {

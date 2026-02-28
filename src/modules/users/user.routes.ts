@@ -9,4 +9,4 @@ router.put("/:userId", usersController.updateUser);
 
 router.delete("/:userId", usersController.deleteUser);
 
-export const userRoutes = router;
+export const usersRoutes = router;

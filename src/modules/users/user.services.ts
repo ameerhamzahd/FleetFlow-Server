@@ -3,37 +3,43 @@ import { pool } from "../../config/db";
 const getAllUsers = async () => {
     const queryResult = await pool.query(`SELECT * FROM users`);
 
-    return queryResult;
+    return queryResult.rows;
 };
 
-const updateUser = async (id: string, payload: Record<string, unknown>) => {
+const getSingleUser = async(userId: string) => {
+    const queryResult = await pool.query(`SELECT id, name, email, phone, role FROM users WHERE id = $1`, [userId]);
+
+    return queryResult.rows[0];
+};
+
+const updateUser = async (userId: string, payload: Record<string, unknown>) => {
     const allowedFields = ["name", "email", "phone", "role"];
 
     const fields: string[] = [];
     const values: any[] = [];
-    let idx = 1;
+    let userIdx = 1;
 
     for (const key in payload) {
         if (allowedFields.includes(key)) {
-            fields.push(`${key} = $${idx}`);
+            fields.push(`${key} = $${userIdx}`);
             values.push(payload[key]);
-            idx++;
+            userIdx++;
         }
     }
 
     if (!fields.length) {
-        return null;
+        return getSingleUser(userId);
     }
 
-    values.push(id);
+    values.push(userId);
 
-    const queryResult = await pool.query(`UPDATE users SET ${fields.join(", ")} WHERE id = $${idx} RETURNING *`, values);
+    const queryResult = await pool.query(`UPDATE users SET ${fields.join(", ")} WHERE id = $${userIdx} RETURNING *`, values);
 
-    return queryResult;
+    return queryResult.rows[0];
 };
 
-const deleteUser = async (id: string) => {
-    const queryResult = await pool.query(`DELETE FROM users WHERE id = $1`, [id]);
+const deleteUser = async (userId: string) => {
+    const queryResult = await pool.query(`DELETE FROM users WHERE id = $1`, [userId]);
 
     return queryResult;
 }

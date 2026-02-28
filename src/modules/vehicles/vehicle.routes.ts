@@ -14,4 +14,4 @@ router.put("/:vehicleId", vehicleControllers.updateVehicle);
 router.delete("/:vehicleId", vehicleControllers.deleteVehicle);
 
 
-export const vehicleRoutes = router;
+export const vehiclesRoutes = router;
