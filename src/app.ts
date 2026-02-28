@@ -3,6 +3,7 @@ import initDB from "./config/db";
 import { vehiclesRoutes } from "./modules/vehicles/vehicle.routes";
 import { usersRoutes } from "./modules/users/user.routes";
 import { bookingsRoutes } from "./modules/bookings/bookings.routes";
+import { authRoutes } from "./modules/auth/auth.routes";
 
 const app = express();
 
@@ -16,6 +17,9 @@ initDB();
 app.get('/', (req: Request, res: Response) => {
     res.send('Welcome to FleetFlow – Where Every Journey Flows Seamlessly.')
 });
+
+// AUTH
+app.use("/api/v1/auth", authRoutes);
 
 // VEHICLES
 app.use("/api/v1/vehicles", vehiclesRoutes);
