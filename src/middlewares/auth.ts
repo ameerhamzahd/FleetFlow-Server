@@ -21,18 +21,23 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
     if (!token) {
         return res.status(401).json({ 
             success: false, 
-            message: "No token provided" });
+            message: "No token provided" 
+        });
     }
 
     try {
         const decoded = jwt.verify(token, config.JWT_SECRET as string) as JwtPayload;
 
-        req.user = { id: decoded.id, role: decoded.role };
+        req.user = { 
+            id: decoded.id, 
+            role: decoded.role
+        };
 
         next();
     } catch (err) {
         return res.status(401).json({ 
             success: false, 
-            message: "Invalid token" });
+            message: "Invalid token" 
+        });
     }
 };

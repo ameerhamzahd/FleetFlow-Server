@@ -39,7 +39,9 @@ const createBooking = async (booking: Partial<Booking>) => {
 
     const newBooking = result.rows[0];
 
-    await vehicleServices.updateVehicle(vehicle_id as string, { availability_status: "booked" });
+    await vehicleServices.updateVehicle(vehicle_id as string, { 
+        availability_status: "booked" 
+    });
 
     return {
         ...newBooking,

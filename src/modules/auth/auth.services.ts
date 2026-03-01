@@ -58,7 +58,12 @@ const signIn = async (email: string, password: string) => {
         throw new Error("Invalid credentials!!!");
     }
 
-    const token = jwt.sign({ id: user.id, role: user.role }, config.JWT_SECRET as string, { expiresIn: "7d" });
+    const token = jwt.sign({ 
+        id: user.id, 
+        role: user.role 
+    }, config.JWT_SECRET as string, { 
+        expiresIn: "7d" 
+    });
 
     return {
         token,
