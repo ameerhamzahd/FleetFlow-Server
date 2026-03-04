@@ -39,8 +39,8 @@ const createBooking = async (booking: Partial<Booking>) => {
 
     const newBooking = result.rows[0];
 
-    await vehicleServices.updateVehicle(vehicle_id as string, { 
-        availability_status: "booked" 
+    await vehicleServices.updateVehicle(vehicle_id as string, {
+        availability_status: "booked"
     });
 
     return {
@@ -54,6 +54,72 @@ const createBooking = async (booking: Partial<Booking>) => {
     };
 };
 
+const formatDate = (date: string | Date) => new Date(date).toISOString().split("T")[0];
+
+const getAllBookings = async (userId?: number, role?: "admin" | "customer") => {
+    // ADMIN VIEW
+    if (role === "admin") {
+        const queryResult = await pool.query(`
+      SELECT 
+        b.*,
+        u.name as customer_name,
+        u.email as customer_email,
+        v.vehicle_name,
+        v.registration_number
+      FROM bookings b
+      JOIN users u ON b.customer_id = u.id
+      JOIN vehicles v ON b.vehicle_id = v.id
+      ORDER BY b.id DESC 
+    `);
+
+        return queryResult.rows.map((b: any) => ({
+            id: b.id,
+            customer_id: b.customer_id,
+            vehicle_id: b.vehicle_id,
+            rent_start_date: formatDate(b.rent_start_date),
+            rent_end_date: formatDate(b.rent_end_date),
+            total_price: b.total_price,
+            status: b.status,
+            customer: {
+                name: b.customer_name,
+                email: b.customer_email
+            },
+            vehicle: {
+                vehicle_name: b.vehicle_name,
+                registration_number: b.registration_number
+            }
+        }));
+    }
+
+    // CUSTOMER VIEW
+    const queryResult = await pool.query(`
+    SELECT 
+      b.*,
+      v.vehicle_name,
+      v.registration_number,
+      v.type
+    FROM bookings b
+    JOIN vehicles v ON b.vehicle_id = v.id
+    WHERE b.customer_id = $1
+    ORDER BY b.id DESC
+  `, [userId]);
+
+    return queryResult.rows.map((b: any) => ({
+        id: b.id,
+        vehicle_id: b.vehicle_id,
+        rent_start_date: formatDate(b.rent_start_date),
+        rent_end_date: formatDate(b.rent_end_date),
+        total_price: b.total_price,
+        status: b.status,
+        vehicle: {
+            vehicle_name: b.vehicle_name,
+            registration_number: b.registration_number,
+            type: b.type
+        }
+    }));
+};
+
 export const bookingServices = {
-    createBooking
+    createBooking,
+    getAllBookings
 }
