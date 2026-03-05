@@ -8,4 +8,6 @@ router.post("/", bookingControllers.createBooking);
 
 router.get("/", verifyToken, authorizeRole("customer", "admin"), bookingControllers.getAllBookings);
 
+router.put("/:bookingId", verifyToken, authorizeRole("customer", "admin"), bookingControllers.updateBooking);
+
 export const bookingsRoutes = router;
