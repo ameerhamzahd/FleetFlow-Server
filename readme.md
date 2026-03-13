@@ -14,8 +14,6 @@
 - [Getting Started](#-getting-started)
 - [Environment Variables](#-environment-variables)
 - [API Usage](#-api-usage)
-- [Deployment](#-deployment)
-- [Submission](#-submission)
 
 ---
 
@@ -185,29 +183,3 @@ Authorization: Bearer <your_jwt_token>
 | `GET` | `/api/v1/bookings` | ROLE-BASED | List all bookings |
 | `POST` | `/api/v1/bookings` | CUSTOMER / ADMIN | Create a booking |
 | `PUT` | `/api/v1/bookings/:bookingId` | ROLE-BASED | Update booking status |
-
----
-
-## Deployment
-
-### Build for Production
-
-```bash
-npm run build
-npm start
-```
-
-### Deploy to a Platform (e.g. Vercel, Railway, Render, Fly.io)
-
-1. Set all environment variables (`CONNECTION_STRING`, `JWT_SECRET`) in your platform's dashboard.
-2. Set the **start command** to: `npm start`
-3. Set the **build command** to: `npm install && npm run build`
-
----
-
-## Submission
-
-```
-GitHub Repo: https://github.com/ameerhamzahd/FleetFlow-Server.git
-Live Deployment: https://fleetflow-server.vercel.app/
-```
