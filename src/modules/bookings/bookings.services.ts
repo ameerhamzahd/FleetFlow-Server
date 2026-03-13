@@ -120,7 +120,7 @@ const getAllBookings = async (userId?: number, role?: "admin" | "customer") => {
 };
 
 const updateBookingStatus = async (bookingId: number, status: "cancelled" | "returned") => {
-    const queryResult = await pool.query("SELECT * FROM bookings WHERE id=$1", [bookingId]);
+    const queryResult = await pool.query("SELECT * FROM bookings WHERE id = $1", [bookingId]);
 
     if (!queryResult.rows[0]) {
         throw new Error("Booking not found");
@@ -128,7 +128,7 @@ const updateBookingStatus = async (bookingId: number, status: "cancelled" | "ret
 
     const booking = queryResult.rows[0];
 
-    await pool.query("UPDATE bookings SET status=$1 WHERE id=$2", [status, bookingId]);
+    await pool.query("UPDATE bookings SET status = $1 WHERE id = $2", [status, bookingId]);
 
     if (status === "returned") {
         await vehicleServices.updateVehicle(booking.vehicle_id, { availability_status: "available" });
